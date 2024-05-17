@@ -19,13 +19,13 @@ export default class ProductRepository {
         try {
             const user = await UserModel.findById(userID);
             console.log(user)
-            if (user.isAdmin == true) {
-                const newProd = new ProductModel(prod);
-                await newProd.save();
-                return newProd;
-            } else {
-                return "you are not the admin to do the task"
-            }
+            // if (user.isAdmin == true) {
+            const newProd = new ProductModel(prod);
+            await newProd.save();
+            return newProd;
+            // } else {
+            // return "you are not the admin to do the task"
+            // }
 
         } catch (err) {
             console.log(err);
