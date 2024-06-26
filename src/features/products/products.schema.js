@@ -8,11 +8,14 @@ export const productSchema = new mongoose.Schema({
     category: String,
     company: String,
     imageUrl: String,
-    rating: {
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        rating: Number
-    }
+    rating: [
+        {
+            userId:
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            },
+            rating: Number
+        }
+    ]
 })

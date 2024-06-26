@@ -15,17 +15,34 @@ export default class ProductRepository {
         }
     }
 
+    async getByID(productID) {
+        if (!mongoose.Types.ObjectId.isValid(productID)) {
+            throw new Error('Invalid ObjectId');
+        }
+
+        // const prodId = new mongoose.Types.ObjectId(productID);
+        try {
+            const product = await ProductModel.findById(productID);
+            return product;
+        } catch (err) {
+            console.log(err);
+            throw new Error('Error fetching product');
+
+        }
+    }
+
     async add(userID, prod) {
+        console.log("userID: ", userID)
         try {
             const user = await UserModel.findById(userID);
-            console.log(user)
-            // if (user.isAdmin == true) {
-            const newProd = new ProductModel(prod);
-            await newProd.save();
-            return newProd;
-            // } else {
-            // return "you are not the admin to do the task"
-            // }
+            console.log("user: ", user)
+            if (user.isAdmin == true) {
+                const newProd = new ProductModel(prod);
+                await newProd.save();
+                return newProd;
+            } else {
+                return "you are not the admin to do the task"
+            }
 
         } catch (err) {
             console.log(err);
@@ -55,6 +72,7 @@ export default class ProductRepository {
             return filterProducts;
         } catch (err) {
             console.log(err);
+            throw new Error('Error filtering products');
         }
     }
 

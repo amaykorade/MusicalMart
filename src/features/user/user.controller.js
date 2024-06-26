@@ -11,17 +11,24 @@ export default class UserController {
 
     async signUp(req, res, next) {
         const {
+            name,
             email,
             password,
+            number,
+            address,
+            country,
+            state,
+            city,
+            pincode,
         } = req.body;
         try {
             const hashedPassword = await bcrypt.hash(password, 12)
-            const user = { email, password: hashedPassword };
-            await this.userRepository.signUp(user);
-            res.status(201).send(user);
+            const user = { name, email, password: hashedPassword, number, address, country, state, city, pincode };
+            const data = await this.userRepository.signUp(user);
+            res.status(201).send(data);
         } catch (err) {
             console.log(err);
-            return res.status(500).send("Internal Server Error");
+            return res.status(500).json({ error: "Internal Server Error" });
         }
     }
 
@@ -46,19 +53,60 @@ export default class UserController {
                     },
                     'AIb6d35fvJM4O9pXqXQNla2jBCH9kuLz',
                     {
-                        expiresIn: '1h',
+                        expiresIn: '30d',
                     }
                 );
                 // 4. Send token.
-                return res.status(200).send(token);
+                return res.status(200).send({ token });
             } else {
                 return res
                     .status(401)
-                    .send('Incorrect Credentials');
+                    .json({ error: 'Incorrect Credentials' });
             }
         } catch (err) {
             console.log(err);
-            return res.status(200).send("Something went wrong");
+            return res.status(500).json({ error: "Internal Server Error" });
+        }
+    }
+
+    async getCurrentUser(req, res, next) {
+        try {
+            const userId = req.userID;
+            const user = await this.userRepository.findUser(userId);
+            return res.status(200).send({ user });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getAllUsers(req, res, next) {
+        try {
+            const userId = req.userID;
+            const users = await this.userRepository.getAll(userId);
+
+            if (users.error) {
+                return res.status(403).json({ error: users.error });
+            }
+
+            // console.log(users);
+            return res.status(200).send({ users });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async deleteUser(req, res, next) {
+        try {
+            const userId = req.userID;
+            const id = req.params.id;
+            const user = await this.userRepository.delete(id, userId);
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+            return res.status(200).send(user);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ error: "Internal Server Error" });
         }
     }
 }

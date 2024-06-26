@@ -1,4 +1,5 @@
 import ProductRepository from "./products.repository.js";
+import mongoose from "mongoose";
 
 export default class ProductController {
 
@@ -8,9 +9,27 @@ export default class ProductController {
 
     async getAll(req, res) {
         try {
-            const prod = await this.productRepository.getAll();
-            res.status(200).send(prod);
+            const products = await this.productRepository.getAll();
+            res.status(200).send(products);
         } catch (err) {
+            console.log(err);
+            res.status(500).send("Internal Server Error")
+        }
+    }
+
+    async getbyId(req, res) {
+        try {
+            const { id } = req.params;
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).send('Invalid Product ID');
+            }
+            const product = await this.productRepository.getByID(id);
+            if (!product) {
+                return res.status(404).send("Product not found");
+            }
+            res.status(200).send(product);
+        }
+        catch (err) {
             console.log(err);
             res.status(500).send("Internal Server Error")
         }
@@ -18,7 +37,13 @@ export default class ProductController {
 
     async addProduct(req, res) {
         const userID = req.userID;
-        const image = req.file.filename;
+        const image = req.file ? req.file.filename : null;
+
+        if (!image) {
+            console.error('No file uploaded or Multer configuration issue.');
+            return res.status(400).send('File upload failed.');
+        }
+
         const prod = req.body;
         prod.imageUrl = image;
         try {
@@ -32,10 +57,7 @@ export default class ProductController {
 
     async filterProd(req, res) {
         try {
-            const minPrice = req.query.minPrice;
-            const maxPrice = req.query.maxPrice;
-            const category = req.query.category;
-            const company = req.query.company;
+            const { minPrice, maxPrice, category, company } = req.query;
             const result = await this.productRepository.filter(
                 minPrice,
                 maxPrice,
@@ -82,7 +104,7 @@ export default class ProductController {
     async delete(req, res) {
         try {
             const userID = req.userID;
-            const prodID = req.params.prodId;
+            const prodID = req.params.productId;
             const product = await this.productRepository.delete(userID, prodID);
             if (!product) {
                 return res.status(404).send("Product not found");

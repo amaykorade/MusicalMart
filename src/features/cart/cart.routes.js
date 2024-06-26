@@ -8,7 +8,7 @@ cartRouter.get('/', (req, res) => {
     cartController.getAllProducts(req, res)
 })
 
-cartRouter.post('/:prodId', (req, res) => {
+cartRouter.post('/', (req, res) => {
     cartController.addToCart(req, res)
 })
 
