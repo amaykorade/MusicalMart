@@ -25,65 +25,65 @@ Table of Contents
   Admin Controls: Admin can manage products and view all user orders.
 
 - Tech Stack
-  Backend: Node.js, Express.js
-  Database: MongoDB with Mongoose
-  Payment Gateway: Razorpay
-  Environment Management: dotenv
-  Security: JWT (JSON Web Tokens), crypto
-  Other Libraries: Multer (for file uploads), Razorpay SDK
+  - Backend: Node.js, Express.js
+  - Database: MongoDB with Mongoose
+  - Payment Gateway: Razorpay
+  - Environment Management: dotenv
+  - Security: JWT (JSON Web Tokens), crypto
+  - Other Libraries: Multer (for file uploads), Razorpay SDK
 
 - Setup and Installation
 
-  Clone the repository:
-  git clone https://github.com/yourusername/the-musical-mart.git
-  cd the-musical-mart
+  - Clone the repository:
+  - git clone https://github.com/yourusername/the-musical-mart.git
+  - cd the-musical-mart
 
-  Install dependencies:
-  npm install
-  Set up environment variables (see Environment Variables).
+- Install dependencies:
+  - npm install
+  - Set up environment variables (see Environment Variables).
 
-  Start the server:
-  npm start
-  Server will run on http://localhost:3000 by default.
+- Start the server:
+  - npm start
+  - Server will run on http://localhost:3000 by default.
 
 - Environment Variables
-  Create a .env file in the root directory and add the following environment variables:
-  DB_URL=<Your MongoDB connection URL>
-  PAYMENT_KEY_ID=<Your Razorpay Key ID>
-  PAYMENT_KEY_SECRET=<Your Razorpay Key Secret>
-  JWT_SECRET=<Your JWT Secret Key>
+  - Create a .env file in the root directory and add the following environment variables:
+  - DB_URL=<Your MongoDB connection URL>
+  - PAYMENT_KEY_ID=<Your Razorpay Key ID>
+  - PAYMENT_KEY_SECRET=<Your Razorpay Key Secret>
+  - JWT_SECRET=<Your JWT Secret Key>
 
 - API Endpoints
 
-  User Management
-  Register User: POST /api/users/register
-  Login User: POST /api/users/login
-  Get User Details: GET /api/users/me (requires JWT token)
+  - User Management
+    - Register User: POST /api/users/register
+    - Login User: POST /api/users/login
+    - Get User Details: GET /api/users/me (requires JWT token)
 
-  Products
-  Get All Products: GET /api/products
-  Add New Product: POST /api/products (Admin only)
-  Update Product: PUT /api/products/:id (Admin only)
-  Delete Product: DELETE /api/products/:id (Admin only)
-  Filter Products: GET /api/products?filter=<filter criteria>
+  - Products
+    - Get All Products: GET /api/products
+    - Add New Product: POST /api/products (Admin only)
+    - Update Product: PUT /api/products/:id (Admin only)
+    - Delete Product: DELETE /api/products/:id (Admin only)
+    - Filter Products: GET /api/products?filter=<filter criteria>
 
-  Cart
-  Get Cart Items: GET /api/cart
-  Add to Cart: POST /api/cart
-  Remove from Cart: DELETE /api/cart/:prodId
+  - Cart
+    - Get Cart Items: GET /api/cart
+    - Add to Cart: POST /api/cart
+    - Remove from Cart: DELETE /api/cart/:prodId
 
-  Orders
-  Create Order: POST /api/orders
-  Get User Orders: GET /api/orders/user
-  Get All Orders: GET /api/orders (Admin only)
+  - Orders
+    - Create Order: POST /api/orders
+    - Get User Orders: GET /api/orders/user
+    - Get All Orders: GET /api/orders (Admin only)
 
-  Payment
-  Get Razorpay Key: GET /api/payment/getkey
-  Create Payment Order: POST /api/payment/create-order
-  Verify Payment: POST /api/payment/paymentverification
-  Get All Orders: GET /api/payment/getallorders (Admin only)
-  Get User Orders: GET /api/payment/getuserorders
+  - Payment
+    - Get Razorpay Key: GET /api/payment/getkey
+    - Create Payment Order: POST /api/payment/create-order
+    - Verify Payment: POST /api/payment/paymentverification
+    - Get All Orders: GET /api/payment/getallorders (Admin only)
+    - Get User Orders: GET /api/payment/getuserorders
 
-  Middlewares
-  JWT Authentication: Used to protect routes that require user authentication.
-  Multer: Used for handling file uploads, such as product images.
+  - Middlewares
+    - JWT Authentication: Used to protect routes that require user authentication.
+    - Multer: Used for handling file uploads, such as product images.
